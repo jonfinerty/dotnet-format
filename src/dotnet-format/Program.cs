@@ -23,10 +23,7 @@ namespace JonFinerty.DotNetFormat
             Console.WriteLine("Starting Format");
 
             var resharperCommandLineTools = new ResharperCommandLineTools();
-            if (!resharperCommandLineTools.IsInstalled())
-            {
-                await resharperCommandLineTools.Install();
-            }
+            if (!resharperCommandLineTools.IsInstalled()) await resharperCommandLineTools.Install();
 
             resharperCommandLineTools.CleanupCode(Solution);
             return 0;

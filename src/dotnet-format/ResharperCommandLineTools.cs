@@ -32,24 +32,39 @@ namespace JonFinerty.DotNetFormat
         {
             Console.WriteLine($"Downloading to {zip}");
             Directory.CreateDirectory(installLocation);
+
+            var totalReads = 0L;
+            var buffer = new byte[8192];
+
             using (var client = new HttpClient())
             {
                 var request = new HttpRequestMessage(HttpMethod.Get, url);
 
                 using (var response = await client.SendAsync(request))
                 using (var stream = await response.Content.ReadAsStreamAsync())
-                using (var fs = new FileStream(zip, FileMode.Create, FileAccess.Write, FileShare.None))
+                using (var fs = new FileStream(zip, FileMode.Create, FileAccess.Write, FileShare.None, buffer.Length))
                 {
-                    await stream.CopyToAsync(fs);
+                    int read;
+                    while ((read = await stream.ReadAsync(buffer, 0, buffer.Length)) != 0)
+                    {
+                        await fs.WriteAsync(buffer, 0, read);
+
+                        totalReads += 1;
+
+                        if (totalReads % 64 == 0) Console.Write('.');
+                    }
                 }
             }
+
+            Console.WriteLine();
 
             Unzip();
         }
 
         private void Unzip()
         {
-            ZipFile.ExtractToDirectory(zip, installLocation);
+            Console.WriteLine("Unzipping tools");
+            ZipFile.ExtractToDirectory(zip, installLocation, true);
         }
 
         public void CleanupCode(string solution)
