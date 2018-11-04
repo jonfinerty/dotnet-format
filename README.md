@@ -9,3 +9,8 @@ A dotnet global tool, using resharper command line tools, to format your solutio
 ## Run
 
 `dotnet format your-solution.sln`
+
+## Update
+
+`dotnet tool update -g dotnet-format`
+
