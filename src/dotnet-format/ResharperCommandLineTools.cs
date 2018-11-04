@@ -47,7 +47,6 @@ namespace JonFinerty.DotNetFormat
                 }
             }
 
-            Console.WriteLine();
             CheckCheckSum();
             Unzip();
         }
@@ -75,6 +74,7 @@ namespace JonFinerty.DotNetFormat
 
         public void CleanupCode(string solution)
         {
+            Console.WriteLine("Running Cleanup Tool");
             var arguments = solution;
 
             var cleanupProcess = new Process
