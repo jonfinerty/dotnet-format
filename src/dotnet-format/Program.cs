@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using McMaster.Extensions.CommandLineUtils;
 
-namespace dotnet_format
+namespace JonFinerty.DotNetFormat
 {
     [Command(Description = "A global command tool for formatting dotnet code")]
     class Program

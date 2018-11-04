@@ -5,7 +5,7 @@ using System.IO.Compression;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace dotnet_format
+namespace JonFinerty.DotNetFormat
 {
     //TODO checksum zip
     public class ResharperCommandLineTools

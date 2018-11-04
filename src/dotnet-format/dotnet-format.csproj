@@ -5,6 +5,11 @@
     <PackAsTool>True</PackAsTool>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <ToolCommandName>dotnet-format</ToolCommandName>
+    <PackageId>dotnet-format</PackageId>
+    <PackageVersion>0.0.1</PackageVersion>
+    <AssemblyName>JonFinerty.DotNetFormat</AssemblyName>
+    <RootNamespace>JonFinerty.DotNetFormat</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
