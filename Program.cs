@@ -1,28 +1,30 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace dotnet_format
 {
-    [Command(Description = "My global command line tool.")]
+    [Command(Description = "A global command tool for formatting dotnet code")]
     class Program
     {
         public static int Main(string[] args) => CommandLineApplication.Execute<Program>(args);
 
-        [Argument(0, Description = "A positional parameter that must be specified.\nThe name of the person to greet.")]
+        [Argument(0, Description = "A positional parameter that must be specified.\nThe solution file for the solution to format")]
         [Required]
-        public string Name { get; }
+        public string Solution { get; }
 
-        [Option(Description = "An optional parameter, with a default value.\nThe number of times to say hello.")]
-        [Range(1, 1000)]
-        public int Count { get; } = 1;
-
-        private int OnExecute()
+        private async Task<int> OnExecuteAsync()
         {
-            for (var i = 0; i < Count; i++)
+            Console.WriteLine($"Starting Format");
+
+            var resharperCommandLineTools = new ResharperCommandLineTools();
+            if (!resharperCommandLineTools.IsInstalled())
             {
-                Console.WriteLine($"Hello {Name}!");
+                await resharperCommandLineTools.Install();
             }
+
+            resharperCommandLineTools.CleanupCode(Solution);
             return 0;
         }
     }
