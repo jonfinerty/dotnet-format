@@ -11,11 +11,13 @@ namespace JonFinerty.DotNetFormat
     public class ResharperCommandLineTools
     {
         private static readonly string installLocation = Path.Combine(AppContext.BaseDirectory, ".resharper");
-        private string zip = Path.Combine(installLocation, "JetBrains.ReSharper.CommandLineTools.2018.2.3.zip");
-        private string executable = Path.Combine(installLocation, "cleanupcode.exe");
+        private readonly string executable = Path.Combine(installLocation, "cleanupcode.exe");
 
-        private string url =
+        private readonly string url =
             "https://download.jetbrains.com/resharper/ReSharperUltimate.2018.2.3/JetBrains.ReSharper.CommandLineTools.2018.2.3.zip";
+
+        private readonly string zip = Path.Combine(installLocation,
+            "JetBrains.ReSharper.CommandLineTools.2018.2.3.zip");
 
 
         public bool IsInstalled()
@@ -53,18 +55,24 @@ namespace JonFinerty.DotNetFormat
         public void CleanupCode(string solution)
         {
             var arguments = solution;
-            
+
             var cleanupProcess = new Process
             {
                 StartInfo =
                 {
-                    UseShellExecute = false, 
-                    FileName = executable, 
+                    UseShellExecute = false,
+                    FileName = executable,
                     CreateNoWindow = true,
-                    Arguments = solution
+                    Arguments = arguments,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true
                 }
             };
+            cleanupProcess.OutputDataReceived += (sender, args) => Console.WriteLine(args.Data);
+            cleanupProcess.ErrorDataReceived += (sender, args) => Console.WriteLine(args.Data);
             cleanupProcess.Start();
+            cleanupProcess.BeginOutputReadLine();
+            cleanupProcess.BeginErrorReadLine();
             cleanupProcess.WaitForExit();
         }
     }
